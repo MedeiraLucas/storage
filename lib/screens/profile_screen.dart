@@ -32,11 +32,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     box.put('perfil', profile);
 
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Perfil salvo com sucesso'),
+      ),
+    );
+
     setState(() {});
   }
 
   void limparPerfil() {
     box.clear();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Perfil removido'),
+      ),
+    );
 
     setState(() {});
   }
@@ -46,50 +58,159 @@ class _ProfileScreenState extends State<ProfileScreen> {
     UserProfile? profile = box.get('perfil');
 
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: const Text('Perfil'),
+        title: const Text('Perfil do Usuário'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            TextField(
-              controller: nomeController,
-              decoration: const InputDecoration(
-                labelText: 'Nome',
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const CircleAvatar(
+                      radius: 40,
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: nomeController,
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                        prefixIcon: const Icon(Icons.person),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    TextField(
+                      controller: pontuacaoController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Pontuação',
+                        prefixIcon: const Icon(Icons.star),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: salvarPerfil,
+                        icon: const Icon(Icons.save),
+                        label: const Text('Salvar Perfil'),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: limparPerfil,
+                        icon: const Icon(Icons.delete),
+                        label: const Text('Limpar Perfil'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
-            TextField(
-              controller: pontuacaoController,
-              decoration: const InputDecoration(
-                labelText: 'Pontuação',
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: salvarPerfil,
-              child: const Text('Salvar Perfil'),
-            ),
-            ElevatedButton(
-              onPressed: limparPerfil,
-              child: const Text('Limpar Perfil'),
-            ),
-            const SizedBox(height: 20),
+
+            const SizedBox(height: 25),
+
             if (profile != null)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nome: ${profile.nome}'),
-                  Text('Email: ${profile.email}'),
-                  Text('Cadastro: ${profile.dataCadastro}'),
-                  Text('Pontuação: ${profile.pontuacao}'),
-                ],
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        children: [
+                          Icon(Icons.account_circle, size: 28),
+                          SizedBox(width: 10),
+                          Text(
+                            'Dados Salvos',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const Divider(height: 30),
+
+                      ListTile(
+                        leading: const Icon(Icons.person),
+                        title: Text(profile.nome),
+                        subtitle: const Text('Nome'),
+                      ),
+
+                      ListTile(
+                        leading: const Icon(Icons.email),
+                        title: Text(profile.email),
+                        subtitle: const Text('Email'),
+                      ),
+
+                      ListTile(
+                        leading: const Icon(Icons.calendar_month),
+                        title: Text(profile.dataCadastro),
+                        subtitle: const Text('Data de Cadastro'),
+                      ),
+
+                      ListTile(
+                        leading: const Icon(Icons.star),
+                        title: Text(
+                          profile.pontuacao.toString(),
+                        ),
+                        subtitle: const Text('Pontuação'),
+                      ),
+                    ],
+                  ),
+                ),
               ),
           ],
         ),
