@@ -2,32 +2,43 @@
 
 Aluno: Lucas Medeira
 
-## Descrição
-Aplicativo Flutter utilizando SharedPreferences, Hive e flutter_secure_storage para armazenamento local.
+## Descrição do App
 
-## SharedPreferences
-Foi utilizado para salvar configurações simples como tema, idioma e notificações.
+O LocalVault é um aplicativo Flutter desenvolvido para demonstrar diferentes formas de armazenamento local de dados. O projeto utiliza SharedPreferences para configurações, Hive para armazenamento de perfil do usuário e flutter_secure_storage para armazenamento seguro de token.
 
-## Hive
-Foi utilizado para salvar o perfil do usuário porque possui boa performance e trabalha com objetos.
+---
 
-## flutter_secure_storage
-Foi utilizado para salvar o token porque os dados ficam protegidos e criptografados.
+## Por que foi escolhido SharedPreferences para configurações?
 
-## Como rodar
+O SharedPreferences foi utilizado porque é simples e eficiente para armazenar dados pequenos e leves, como configurações do aplicativo. Nesse projeto ele foi utilizado para salvar:
 
-```bash
-flutter pub get
-flutter packages pub run build_runner build
-flutter run
-```
+- Tema escuro/claro
+- Idioma
+- Notificações
 
-## Estrutura
-- Configurações com SharedPreferences
-- Perfil com Hive
-- Token com flutter_secure_storage
-- Migração simples de dados
+Esses dados permanecem salvos mesmo após fechar o aplicativo.
 
-## LGPD
-O aplicativo armazena nome, email, configurações e token fictício.
-O usuário pode excluir os dados através do botão de limpar perfil e deletar token.
+---
+
+## Por que foi escolhido Hive para o perfil do usuário?
+
+O Hive foi escolhido porque possui ótima performance e permite salvar objetos diretamente no armazenamento local. Ele facilita o gerenciamento de dados mais estruturados.
+
+No projeto foi utilizado para armazenar:
+
+- Nome
+- Email
+- Data de cadastro
+- Pontuação
+
+Também foi implementado o TypeAdapter utilizando @HiveType e @HiveField.
+
+---
+
+## Por que foi escolhido flutter_secure_storage para o token?
+
+O flutter_secure_storage foi utilizado porque oferece armazenamento seguro e criptografado para dados sensíveis.
+
+Nesse projeto ele foi utilizado para salvar um token fictício de autenticação, garantindo maior segurança dos dados armazenados localmente.
+
+---
